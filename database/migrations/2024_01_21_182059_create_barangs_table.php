@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('barangs', function (Blueprint $table) {
             $table->id('id_barang')->increments();
             $table->index('id_barang');
-            $table->string('nama_produk')->unique();
+            $table->string('nama_produk');
             $table->string('merk')->nullable();
             $table->integer('harga');
             $table->string('image')->nullable();

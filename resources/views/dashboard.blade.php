@@ -9,7 +9,7 @@
   <!-- Tailwind is included -->
   <link rel="stylesheet" href="css/main.css">
   <script src="https://cdn.tailwindcss.com"></script>
-
+  <script type="text/javascript" src="{{ URL::asset('js/main.min.js'); }} "></script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130795909-1"></script>
   <script>
