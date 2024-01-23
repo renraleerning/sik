@@ -67,7 +67,7 @@
     <p class="menu-label">General</p>
     <ul class="menu-list">
       <li class="--set-active-profile-htm">
-        <a href="{{route('home.index')}}">
+        <a href="{{route('transaksi.index')}}">
           <span class="icon"><i class="mdi mdi-desktop-mac"></i></span>
           <span class="menu-item-label">Dashboard</span>
         </a>
@@ -121,6 +121,7 @@
         <table>
           <thead>
             <th>ID Barang</th>
+            <th>Foto</th>
             <th>Nama Produk</th>
             <th>Merk</th>
             <th>Harga</th>
@@ -130,11 +131,17 @@
           @forelse ($Barangs as $barang)
           <tr>
             <td >{{$barang->id_barang }}</td>
+            <td > <img src="{{ asset('/storage/product/'.$barang->image) }}" class="rounded" style="width: 150px"></td>
             <td >{{$barang->nama_produk}}</td>
             <td >{{$barang->merk}}</td>
             <td >{{$barang->harga }}</td>
             <td>
-               <a href="{{ route('barang.edit', $barang->id_barang) }}" class="btn btn-sm btn-primary">EDIT</a>
+               <a href="{{ route('barang.edit', $barang->id_barang) }}" class="button small green --jb-modal" type="button">
+                  <span class="icon"><i class="mdi mdi-pencil"></i></span>
+              </a>
+                <button class="button small red --jb-modal" data-target="sample-modal" type="button">
+                  <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                </button>
                @csrf
                @method('DELETE')
             </td>

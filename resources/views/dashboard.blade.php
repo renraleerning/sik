@@ -67,7 +67,7 @@
     <p class="menu-label">General</p>
     <ul class="menu-list">
       <li class="active">
-        <a href="{{route('home.index')}}">
+        <a href="{{route('home')}}">
           <span class="icon"><i class="mdi mdi-desktop-mac"></i></span>
           <span class="menu-item-label">Dashboard</span>
         </a>
@@ -76,7 +76,7 @@
     <p class="menu-label">Menu</p>
     <ul class="menu-list">
       <li class="--set-active-index-html">
-        <a href="{{route('barang')}}">
+        <a href="{{route('barang.index')}}">
           <span class="icon"><i class="mdi mdi-table"></i></span>
           <span class="menu-item-label">Barang</span>
         </a>

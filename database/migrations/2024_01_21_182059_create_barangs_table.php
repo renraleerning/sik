@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama_produk')->unique();
             $table->string('merk')->nullable();
             $table->integer('harga');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

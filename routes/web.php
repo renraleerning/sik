@@ -2,7 +2,7 @@
 	
 	use Illuminate\Support\Facades\Route;
 	use App\Http\Controllers\LoginController;
-	use App\Http\Controllers\HomeController;
+	use App\Http\Controllers\TransaksiController;
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -17,7 +17,9 @@
 	
 	Route::get('/', [LoginController::class, 'login'])->name('login');
 	Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
-	// Route::get('home', [HomeController::class, 'index'])->name('home')->middleware('auth');
-    Route::resource('/home', \App\Http\Controllers\HomeController::class);
-    Route::get('/barang', [HomeController::class, 'barang'])->name('barang');
+	Route::get('home', [TransaksiController::class, 'index'])->name('home')->middleware('auth');
+    Route::resource('/transaksi', \App\Http\Controllers\TransaksiController::class);
+    Route::get('barang', [TransaksiController::class, 'barang'])->name('barang');
 	Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
+
+	Route::resource('/barang', \App\Http\Controllers\BarangController::class);
