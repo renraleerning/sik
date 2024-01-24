@@ -5,11 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard - Admin One Tailwind CSS Admin Dashboard</title>
-
   <!-- Tailwind is included -->
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="{{ URL::asset('css/main.css'); }} ">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script type="text/javascript" src="{{ URL::asset('js/main.min.js'); }} "></script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130795909-1"></script>
   <script>
