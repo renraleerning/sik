@@ -75,13 +75,13 @@
     <p class="menu-label">Menu</p>
     <ul class="menu-list">
       <li class="active">
-        <a href="#">
+        <a href="{{route('barang.index')}}">
           <span class="icon"><i class="mdi mdi-table"></i></span>
           <span class="menu-item-label">Barang</span>
         </a>
       </li>
       <li class="--set-active-profile-html">
-        <a href="{{route('barang.index')}}">
+        <a href="#">
           <span class="icon"><i class="mdi mdi-account-circle"></i></span>
           <span class="menu-item-label">User</span>
         </a>
@@ -108,10 +108,10 @@
 </section>
 
   <section class="section main-section">
-    <div class="card has-table">
+    <div class="card has-table ">
       <header class="card-header">
-        <p class="card-header-title">
-          <span class="icon"><i class="mdi mdi-account-multiple"></i></span>
+        <p class="card-header-title hover:text-[blue]">
+          <span class="icon"><i class="mdi mdi-script"></i></span>
           Transaksi
         </p>
        
