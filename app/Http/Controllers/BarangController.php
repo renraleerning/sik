@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {   
@@ -53,15 +54,11 @@ class BarangController extends Controller
     
     public function edit(string $id): View
     {
-        //get post by ID
-        $barang = Barang::findOrFail($id);
-
-        //render view with post
-        return view('posts.edit', compact('post'));
+        $barang = Barang::where('id_barang', $id)->firstOrFail();
+        return view('updateformbarang', compact('barang'));
     }
     public function update(Request $request, $id): RedirectResponse
     {
-        //validate form
         $this->validate($request, [
             'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'nama_produk' => 'required|min:2',
@@ -69,36 +66,38 @@ class BarangController extends Controller
             'harga' => 'required|min:3'
         ]);
 
-        //get post by ID
-        $post = Post::findOrFail($id);
-
-        //check if image is uploaded
+        $barang = Barang::where('id_barang', $id)->firstOrFail();
         if ($request->hasFile('image')) {
 
-            //upload new image
             $image = $request->file('image');
-            $image->storeAs('public/posts', $image->hashName());
+            $image->storeAs('public/product', $image->hashName());
 
-            //delete old image
-            Storage::delete('public/posts/'.$post->image);
+            Storage::delete('public/product/'.$barang->image);
 
-            //update post with new image
-            $post->update([
+            $barang->where('id_barang',$id)->update([
                 'image'     => $image->hashName(),
-                'title'     => $request->title,
-                'content'   => $request->content
+                'nama_produk'=> $request->nama_produk,
+                'merk'   => $request->merk,
+                'harga'   => $request->harga
             ]);
 
         } else {
-
-            //update post without image
-            $post->update([
-                'title'     => $request->title,
-                'content'   => $request->content
+            $barang->update([
+                'nama_produk'=> $request->nama_produk,
+                'merk'   => $request->merk,
+                'harga'   => $request->harga
             ]);
         }
 
         //redirect to index
-        return redirect()->route('posts.index')->with(['success' => 'Data Berhasil Diubah!']);
+        return redirect()->route('barang.index')->with(['success' => 'Data Berhasil Diubah!']);
+    }
+
+    public function destroy($id): RedirectResponse
+    {
+        $barang = Barang::where('id_barang', $id)->firstOrFail();
+        Storage::delete('public/product/'. $barang->image);
+        $barang->where('id_barang',$id)->delete();
+        return redirect()->route('barang.index')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }
