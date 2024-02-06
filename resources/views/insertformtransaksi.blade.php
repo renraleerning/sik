@@ -5,9 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard - Admin One Tailwind CSS Admin Dashboard</title>
-  <!-- Tailwind is included -->
   <link rel="stylesheet" href="{{ URL::asset('css/main.css'); }} ">
+  <!-- Tailwind is included -->
   <script src="https://cdn.tailwindcss.com"></script>
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130795909-1"></script>
   <script>
@@ -65,7 +66,7 @@
     <p class="menu-label">General</p>
     <ul class="menu-list">
       <li class="active">
-        <a href="{{route('home')}}">
+        <a href="{{route('transaksi.index')}}">
           <span class="icon"><i class="mdi mdi-desktop-mac"></i></span>
           <span class="menu-item-label">Dashboard</span>
         </a>
@@ -73,8 +74,8 @@
     </ul>
     <p class="menu-label">Menu</p>
     <ul class="menu-list">
-      <li class="--set-active-index-html">
-        <a href="{{route('barang.index')}}">
+      <li class="--set-active-profile-html">
+        <a href="#">
           <span class="icon"><i class="mdi mdi-table"></i></span>
           <span class="menu-item-label">Barang</span>
         </a>
@@ -97,66 +98,86 @@
   </div>
 </section>
 
-<section class="is-hero-bar">
-  <div class="flex flex-col md:flex-row items-center justify-between space-y-6 md:space-y-0">
-    <h1 class="title">
-      Data Transaksi
-    </h1>
-    <a href="{{route('transaksi.create')}}" class="button light">Tambah Transaksi</a>
-  </div>
-</section>
 
   <section class="section main-section">
     <div class="card has-table">
       <header class="card-header">
         <p class="card-header-title">
-          <span class="icon"><i class="mdi mdi-account-multiple"></i></span>
-          Transaksi
+          <span class="icon"><i class="mdi mdi-plus-box-outline"></i></span>
+          Tambah Data Transaksi
         </p>
        
       </header>
       <div class="card-content">
-        <table>
-          <thead>
-            <th>ID Transaksi</th>
-            <th>Nama Barang</th>
-            <th>Total Item</th>
-            <th>Total Harga</th>
-            <th>Status Pembayaran</th>
-            <th>tgl_transaksi</th>
-          </thead>
-          <tbody>
-          @forelse ($Transaksis as $transaksi)
-          <tr>
-            <td data-label="id_transaksi">{{ $transaksi->id_transaksi }}</td>
-            <td data-label="nama_item">{{ $transaksi->barang->nama_produk}}</td>
-            <td data-label="total_item">{{ $transaksi->total_item }}</td>
-            <td data-label="total_harga">{{ $transaksi->total_harga }}</td>
-            <td data-label="status_pembayaran">{{ $transaksi->status_pembayaran }}</td>
-            <td data-label="Created">
-              <small class="text-gray-500" title="Oct 25, 2021">Oct 25, 2021</small>
-            </td>
-           
-          </tr>
-          @empty
-          <tr>
-          <div class="card empty">
-            <div class="card-content">
-              <div>
-                <span class="icon large"><i class="mdi mdi-emoticon-sad mdi-48px"></i></span>
+      <form action="{{ route('transaksi.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+          <div class="field">
+            <div class="field-body">
+              <div class="field">
+                <div class="control icons-left">
+                  <label for="barang" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+                    <select onchange='updateInput(document.getElementById("barang").value)' id="barang" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option selected>Pilih Barang</option>
+                    @forelse ($Barangs as $barang) 
+                    <option value="{{ $barang->id_barang }}">{{ $barang->nama_produk }}</option>
+                    @empty
+                    @endforelse
+                    </select>
+                </div>
               </div>
-              <p>Nothing's here…</p>
+              <div class="field">
+                <div class="control icons-left">
+                  <input class="input" id='qty' onchange='updatetHarga(document.getElementById("harga").value)' type="number" placeholder="Qty" value='1' name="total_item" >
+                  <span class="icon left"><i class="mdi mdi-coins"></i></span>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control icons-left">
+                  <input class="input" type="readonly" placeholder="harga" id='harga' name="harga" value='' readonly>
+                  <span class="icon left"><i class="mdi mdi-tag"></i></span>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control icons-left">
+                  <input class="input" type="readonly" placeholder="total_harga" id='tharga' value='' name="total_harga" readonly >
+                  <span class="icon left"><i class="mdi mdi-tag-multiple"></i></span>
+                </div>
+              </div>
+              
             </div>
           </div>
-          </tr>
-          @endforelse
-          </tbody>
-        </table>
+          <div class="field grouped">
+            <div class="control">
+              <button type="submit" class="button green">
+                Submit
+              </button>
+            </div>
+            <div class="control">
+              <button type="reset" class="button red">
+                Reset
+              </button>
+            </div>
+          </div>
+        </form>
      
       </div>
     </div>   
   </section>
   <script type="text/javascript" src="{{ URL::asset('js/main.min.js'); }} "></script>
+  <script>
+        function updatetHarga(input){
+            document.getElementById("tharga").value=input*document.getElementById("qty").value;
+        }
+        function updateInput(input){
+            var barang = @json($Barangs);
+            for (let i = 0; i< barang.length;i++){
+                if (barang[i].id_barang == input) {
+                    document.getElementById("harga").value=barang[i].harga;
+                    updatetHarga(document.getElementById("harga").value=barang[i].harga);
+                }
+            }
+        }
+    </script>
   <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
 </body>
 </html>

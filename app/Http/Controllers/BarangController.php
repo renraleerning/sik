@@ -23,7 +23,7 @@ class BarangController extends Controller
     }
     public function index(): View
     {
-        $Barangs = Barang::latest()->paginate(5);
+        $Barangs = Barang::latest()->get();
         return view('barang', compact('Barangs'));
     }
 
